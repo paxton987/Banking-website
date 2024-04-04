@@ -96,24 +96,24 @@
     width: 100%;
     height: 100vh;
     animation: changes 10s infinite;
-   background-image:url(../shutterstock_503064997.jpg);
+   background-image:url(../projectbank/shutterstock_503064997.jpg);
 }
 @keyframes changes{
 
     0%{
-        background-image: url(../shutterstock_503064997.jpg);
+        background-image: url(../projectbank/shutterstock_229092886.jpg);
     }
 
     30%{
-        background-image: url(../MSI-Prestige-14-EVO-thin-laptop-001-1200x900.jpg);
+        background-image: url(../projectbank/MSI-Prestige-14-EVO-thin-laptop-001-1200x900.jpg);
     }
     
     60%{
-        background-image:url(../online-banking.jpg);
+        background-image:url(../projectbank/shutterstock_229092886.jpg);
        
     }
     80%{
-        background-image: url(../shutterstock_229092886.jpg);
+        background-image: url(../projectbank/online-banking.jpg);
     }
 }
 #body1_1{
