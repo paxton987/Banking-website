@@ -327,12 +327,13 @@
 
 #body5_1{
     width: 90%;
-   
+   /* background-color: red; */
     height: 80vh;
     display: flex;
     justify-content: center;
     gap: 10px;
     flex-wrap:wrap ;
+    margin-top: 50px;
     gap: 60px;
     flex-wrap: wrap;   
 }
@@ -1062,6 +1063,10 @@
         width: 50%;
         /* background-color: aqua; */
         height: 200px;
+        #body2_1{
+            /* background-color: red; */
+            width: 90%;
+        }
     }
     #body4{
         width: 100%;
@@ -1272,6 +1277,11 @@
         width: 100%;
       
        
+       }
+       #body2_1{
+        width: 90%;
+        background-color: red;
+
        }
 }
 @media (max-width:375px) {
