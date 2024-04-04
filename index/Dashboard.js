@@ -23,6 +23,10 @@ let numberss=document.getElementById("numberss")
 // localStorage.getItem("savedat", JSON.stringify(doc.data()))
 let airtime1=document.getElementById("airtime1")
 let airtime5=document.getElementById("airtime5")
+let showimg1=document.getElementById("showimg1")
+let showimg=document.getElementById("showimg")
+let showimg2=document.getElementById("showimg2")
+let showimg3=document.getElementById("showimg3")
 // let discription=document.getElementById("discription")
 let iss=document.getElementById("airtime1")
 let modal=document.getElementById("modal")
@@ -44,7 +48,9 @@ let inp4=document.getElementById("inp4")
 let inp_4=document.getElementById("inp_4")
 let airacc=document.getElementById("airacc")
 let body7_1=document.getElementById("body7_1")
-let copyi=document.getElementById("copyi")
+let amount_1=document.getElementById("amount_1")
+let date2=document.getElementById("date2")
+let category=document.getElementById("category")
 
 
 
@@ -120,8 +126,10 @@ function showd() {
           var uid = User.uid;
           const db = firebase.firestore();
          var docRef = db.collection("User").doc(User.email);
+         
             docRef.get().then((doc) => {
           if (doc.exists) {
+            newUser=doc.data()
             //   localStorage.setItem("savedat", JSON.stringify(doc.data()));
               display1.innerHTML=`${doc.data().account}`
               airacc.innerHTML=`${doc.data().amount}`
@@ -131,11 +139,10 @@ function showd() {
               shown.innerHTML=`${doc.data().name}`
               accnum2.innerHTML=`${doc.data().account}`
               pins.innerHTML=`${doc.data().pin}`
-              Fulln.innerHTML=`${doc.data().name}`
               em.innerHTML=`${doc.data().email}`
               coun.innerHTML=`${doc.data().contry}`
               console.log("Document data:", doc.data());
-              
+              console.log(Math.random());
 
           } else {
             //   doc.data() will be undefined in this case
@@ -152,6 +159,78 @@ function showd() {
           // ...
         }
       });
+             
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/v8/firebase.User
+          var uid = user.uid;
+          let userss = firebase.auth().currentUser
+          db.collection(userss.email).get().then((querySnapshot) => {
+          
+                  querySnapshot.forEach((doc) => {
+                    
+                      showimg.innerHTML+=`<div style="display:flex;gap:10px; align-items:center;">
+                      <div style="background-color: rgb(187, 255, 0); width: 35px; height: 27px; border-radius: 50px; align-items: center; justify-content: center; display: flex; "><span class="material-symbols-outlined">sync_alt </span>                                    </div>
+                      <h6 style="font-weight: 400;">${doc.data().name}</h6></div>
+
+                      </div>
+                    
+                     `
+                      showimg1.innerHTML+=`
+                      <h6 style="margin:13px auto;  font-weight: 400;">${doc.data().type}</h6></div>
+
+                    
+                    
+                     `
+                      showimg2.innerHTML+=`
+                      <h6 style="margin:13px auto; font-weight: 400;">${doc.data().j}</h6></div>
+ `
+                     showimg3.innerHTML+=`${doc.data().type!="Credit"? `<div style='background-color:red; margin:11px auto; border-radius:4px; width:50px; align-items: center; justify-content: center;color:white; height:30px; display:flex' ><p style="margin-top:10px;">−</p><h5>${doc.data().Amount}</h5></div>`  : `<div style='background-color:RGB(5 250 30); border-radius:4px; margin:11px auto; width:50px; align-items: center; justify-content: center;color:white; height:30px; display:flex' ><p style="margin-top:10px;">+</p><h5>${doc.data().Amount}</h5></div>`}`
+                    
+                      // doc.data() is never undefined for query doc snapshots
+                      console.log(doc.id, " => ", doc.data());
+                      let date = (doc.id, " => ", doc.data().Date)
+                  });
+            
+             
+          });
+          // ...
+        } else {
+          // User is signed out
+          // ...
+        }
+      });
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/v8/firebase.User
+          var uid = user.uid;
+          db.collection(foundUser.email).get().then((querySnapshot) => {
+            
+                  querySnapshot.forEach((doc) => {
+                    showimg.innerHTML+=`
+                    <div style="background-color: rgb(187, 255, 0); width: 30px; height: 20px; border-radius: 50px; align-items: center; justify-content: center; display: flex; "><span class="material-symbols-outlined">sync_alt </span>                                    </div>
+                    <h1>${doc.data().name }</h1>
+                   
+                    `
+                     
+                      // doc.data() is never undefined for query doc snapshots
+                      console.log(doc.id, " => ", doc.data());
+                  });
+            
+             
+          });
+          // ...
+        } else {
+          // User is signed out
+          // ...
+        }
+      });
+
+   
+ 
+foundreceiver()
     
 }
  showd()
@@ -170,21 +249,21 @@ function showd() {
    
     
  }
- function ss(params) {
-    params.preventDefault()
-    params.target.innerHTML= `
-    <div class="btn  text-light " type="button" disabled>
-    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-    <span role="status"  style="border:none; background:none;">Loading...</span>
-  </div>
-  `
- }
+//  function ss(params) {
+//     params.preventDefault()
+//     params.target.innerHTML= `
+//     <div class="btn  text-light " type="button" disabled>
+//     <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+//     <span role="status"  style="border:none; background:none;">Loading...</span>
+//   </div>
+//   `
+//  }
  function frombal() {
    
    setTimeout(() => {
     body6_1.style.display="none"
     airtime5.style.display="flex"
-   }, 3000);
+   }, 10);
     
  }
  function pay() {
@@ -198,18 +277,17 @@ function showd() {
  }
    
  }
- function transfer() {
+ function transfer(ev) {
+    ev.preventDefault()
     let showamout1 = ssss.value
-    if (ssss.value=="") {
-        alert( 'Enter amount')
-        return
-    } else if (useracc.value=="") {
-        alert("Enter your acoount number")
-        return
+    if (ssss.value=="" || useracc.value=="") {
+        alert('enter details')
+
     }else {
         useramt.innerHTML=showamout1
        
     }
+   
 }
  function inp5() {
     if (inp.value.length==1) {
@@ -232,113 +310,8 @@ function showd() {
     }
      }
     
-     function confirmcar() {
-        firebase.auth().onAuthStateChanged((User) => {
-            if (User) {
-              // User is signed in, see docs for a list of available properties
-              // https://firebase.google.com/docs/reference/js/v8/firebase.User
-              var uid = User.uid;
-              const db = firebase.firestore();
-              var docRef = db.collection("User").doc(User.email);
-             
-    
-               
-              docRef.get().then((doc) => {
-                currentacc = doc.data().amount-password.value
-              if (doc.exists) {
-                 let splitpin = doc.data().pin.split("")
-                 if (inp.value == splitpin[0] && inp2.value == splitpin[1] && inp3.value== splitpin[2] && inp4.value==splitpin[3]) {
-                    
-                    if (currentacc<0) {
-                        alert("not enenogh")
-                    }else{
-                        var Userref = db.collection("User").doc(User.email);
-                    
-                    // Set the "capital" field of the city 'DC'
-                    return Userref.update({
-                        amount:currentacc
-                    })
-                    .then(() => {
-                        db.collection("User").doc(User.email)
-                        .onSnapshot((doc) => {
-                        numberss.innerHTML=doc.data().amount
-                        });
-                       
-                        console.log("Document successfully updated!", doc.data());
-                        alert("Done")
-                        modal.style.display="none"
-                    })
-                    .catch((error) => {
-                        // The document probably doesn't exist.
-                        console.error("Error updating document: ", error);
-                       
-                    });
-                    }
-                     }else{
-                    alert("incorrrect pin")
-                 }
-                 } else {
-                  // doc.data() will be undefined in this case
-                  console.log("No such document!");
-              }
-              }).catch((error) => {
-                  console.log("Error getting document:", error);
-              });
-    
-              // ...
-            } else {
-              // User is signed out
-              console.log("sjhs");
-              // ...
-            }
-          });
-     }
-//      function transfe() {
-     
-//         firebase.auth().onAuthStateChanged((User) => {
-//             if (User) {
-//              var uid = User.uid;
-//               const db = firebase.firestore();
-//                  var docRef = db.collection("User").doc(User.email);
-//                 docRef.get().then((doc) => {
-//               if (doc.data().account==useracc.value) {
-//                 foundUser={
-//                     email:doc.id,
-//                     name:doc.id,
-//                     Balance:doc.data().balance,
-//                     username: `${doc.data().name}`
-//                 }
-//                 if (foundUser) {
-//                     console.log(`User found with email: ${foundUser.email}`);
-//                     console.log(`User found with username: ${foundUser.username}`);
-//                     username.value = foundUser.username;
-//                     console.log(foundUser.Balance);
-               
-//                 } else {
-                    
-//                     console.log("User not found");
-//                 }
-                 
-                  
-                  
-//               } else {
-            
-                  
-//               }
-//               }).catch((error) => {
-//                   console.log("Error getting document:", error);
-//               });
-    
-//               // ...
-//             } else {
-            
-//               console.log("sjhs");
-//               // ...
-//             }
-//           });
    
-   
-//  }
+
 foundUser=null
 const userslist=[]
  function foundreceiver() {
@@ -348,6 +321,7 @@ const userslist=[]
         querySnapshot.forEach((doc) => {
             // console.log(doc.id, " => ", doc.data());
             if (doc.data().account == useracc.value ) {
+                reciever=doc.data()
                 foundUser={
                     email:doc.id,
                     id:doc.data().name,
@@ -479,16 +453,7 @@ function confirmtran() {
                                     amount: currentuserbal - transferamt
                                    
                                 })
-                                .then(() => {
-                                    db.collection("User").doc(currentUser.email)
-                                    .onSnapshot((doc) => {
-                                    numberss.innerHTML=doc.data().amount
-                                    });
-                                   
-                                    
-                                    alert("Transfer successful")
-                                   
-                                })
+                             
                                 
                                 .then(() => {
                                     console.log(receiverbalance);
@@ -502,6 +467,11 @@ function confirmtran() {
                                           receiverdocref.update({
                                             amount:  Number(receiverbal) + Number(transferamt)
                                           })
+                                          
+                                         
+                                        .catch((error) => {
+                                            console.error("Error writing document: ", error);
+                                        });
                                           
         
                                     })
@@ -527,118 +497,20 @@ function confirmtran() {
             console.log("No user found");
         }
     });  
-}
-// function confirmtran() {
     
-// }
+    sendertran()
+    receivertran()
+    hi()
+   
+}
 
-// firebase.auth().onAuthStateChanged((currentUser) => {
-//     if (currentUser) {
-//         const currentuserdocref = db.collection('User').doc(currentUser.email);
-//         console.log(foundUser);
-//         currentuserdocref.get().then(sender => {
-//             if (sender.exists) {
-               
-//                 const currentuserbal = sender.data().amount;
-//                 console.log(currentuserbal);
-//                 const transferamt = amount1.value;
-//                 const receiverbalance =  foundUser.amount
-//                  currentuserdocref.update({
-//                         amount: currentuserbal - transferamt
-                       
-//                     })
-//                     .then(() => {
-//                         db.collection("User").doc(currentUser.email)
-//                         .onSnapshot((doc) => {
-//                         numberss.innerHTML=doc.data().amount
-//                         });
-                       
-                        
-//                         alert("Done")
-                       
-//                     })
-//                     .catch((error) => {
-//                         // The document probably doesn't exist.
-//                         console.error("Error updating document: ", error);
-                       
-//                     })
-                  
-//                     .then(() => {
-//                         console.log(receiverbalance);
-//                         console.log(transferamt);
-//                    const  receiverdocref = db.collection('User').doc(foundUser.email)
-//                    console.log(receiverdocref);
-//                     if (receiverdocref) {
-//                         receiverdocref.get().then(receiver=>{
-//                             let receiverbal =  receiver.data().amount 
-//                             console.log(receiverbal);
-//                               receiverdocref.update({
-//                                 amount:  Number(receiverbal) + Number(transferamt)
-//                               })
-                              
-
-//                         })
-//                     }
-//                     // .update({
-//                     //         amount:  Number(receiverbalance) + Number(transferamt)
-                           
-//                     //     })
-//                         // .then(() => {
-//                         //     db.collection("Profile").doc(foundUser.email).get().then(result => {
-//                         //         if (!result) {
-//                         //             console.log(result);
-//                         //         }
-//                         //         foundUser.amount = result.data().amount;
-//                         //     });
-//                         //     console.log("Found user's balance updated");
-//                         //   });
-                        
-//                         // db.collection("transaction").doc(gen).set({
-//                         //     date: new Date(),
-//                         //     senderEmail: sender.data().email,
-//                         //     senderName: `${sender.data().firstname}` `${sender.data().lastname}`,
-//                         //     senderOldBalance: currentuserbal,
-//                         //     transferAmount: transferamt,
-//                         //     receiverEmail: foundUser.email,
-//                         //     receiverName: foundUser.username,
-//                         //     receiverOldBalance: receiverbalance,
-//                         //     receiverNewBalance: receiverbalance + transferamt,
-//                         //     senderNewBalance: currentuserbal - transferamt,
-
-
-                            
-//                         // })
-//                         // .then(() => {
-//                         //     console.log(gen);
-                            
-//                         //     console.log("Document successfully written!");
-//                         // })
-//                         // .catch((error) => {
-//                         //     console.error("Error writing document: ", error);
-//                         // });
-//                            console.log("Current user's balance updated")
-//                         ;})
-                   
-                
-//             } else {
-//                 console.log("Current user's document not found");
-//             }
-//         }).catch(error => {
-//             console.error("Error getting document:", error);
-//         });
-//     } else {
-//         console.log("No user found");
-//     }
-// });  
-// }
 function signout() {
 
 firebase.auth().signOut().then(() => {
     // Sign-out successful.
-    setTimeout(() => {
-        loder1.style.display="flex"
+     alert("Sign-out successful.")
         window.location.href="login.html"
-     }, 2000);
+     
    
   }).catch((error) => {
     // An error happened.
@@ -667,5 +539,76 @@ function nouser() {
       });
      
 }
+function hi() {
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/v8/firebase.User
+          var uid = user.uid;
+          then(() => {
+            db.collection("User").doc(currentUser.email)
+            .onSnapshot((doc) => {
+            numberss.innerHTML=doc.data().amount
+            });
+           
+            
+            alert("Transfer successful")
+           
+        })
+          // ...
+        } else {
+          // User is signed out
+          // ...
+          console.log("error");
+        }
+      });
+        
+    
+}
+     hi()
 nouser()
-     
+function sendertran() {
+    let users =firebase.auth().currentUser;
+    let datte = new Date();
+    // const timestamp = firebase.firestore.Timestamp.fromDate(datte);
+
+      // Add a new document with a generated id.
+db.collection(users.email).add({
+    name:foundUser.Username,
+    Amount:ssss.value,
+    Date: datte,
+    category:"Transfer",
+     type:"Debit",
+     airtime:false
+})
+.then((docRef) => {
+    console.log("Document written with ID: ", docRef.id);
+})
+.catch((error) => {
+    console.error("Error adding document: ", error);
+});
+  foundreceiver()
+}
+sendertran()
+function receivertran() {
+    let datte = new  Date();
+    // const timestamp = firebase.firestore.Timestamp.fromDate(datte);
+      // Add a new document with a generated id.
+db.collection(foundUser.email).add({
+    name:newUser.name,
+     Amount:ssss.value,
+     Date: datte,
+     category:"Transfer",
+     type:"Credit"
+})
+.then((docRef) => {
+    console.log("Document written with ID: ", docRef.id);
+})
+.catch((error) => {
+    console.error("Error adding document: ", error);
+});
+  foundreceiver()
+  
+}
+receivertran()
+

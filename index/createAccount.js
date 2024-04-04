@@ -123,7 +123,6 @@ db.collection("User").doc(user.email).set({
 
   
 })
-
 .then(() => {
   console.log("Document successfully written!");
   alert("Regitration successfulluy")

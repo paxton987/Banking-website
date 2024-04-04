@@ -239,6 +239,21 @@ function history() {
           var uid = user.uid;
           console.log(user);
         } else {
+                       <div> <h6>${doc.data().name }</h6></div>
+                     <h5>${doc.data().type}</h5></div>
+                     <h5>${doc.data().toDate}</h5></div>
+                     <div  style="display:flex; width:100%; align-item: start; background-color: white;  justify-content:space-between;">
+                            <div style="display:flex; background-color:blue"; width:200px; padding:30px>
+                            gggg
+                            </div>
+                            
+                            <div  style="display:flex; width:20%; align-item: start; background-color: white; gap:15px; justify-content: center;"></div>
+                            <div  style="display:flex; width:20%; align-item: start; background-color: white; gap:15px; justify-content: center;"></div>
+                            <div  style="display:flex; width:20%; align-item: start; background-color: red; gap:1px; justify-content: center;"></div>
+                        </div>
+                     
+
+
          
         }
       });
